@@ -12,13 +12,14 @@ conn = pyodbc.connect(
     "TrustServerCertificate=yes;"
     "ConnectionTimeout=5;"
     "Authentication=SqlPassword;"
-    "Database=TESTDB;",
-    autocommit=True,
+    "Database=TESTDB;"
 )
 
 start = time.time()
 with conn.cursor() as cursor:
     cursor.execute("select * from TESTTABLE")
+    data = cursor.fetchall()
+    print(len(data))
 end = time.time()
 
 print(f"Time taken (Pyodbc): {end - start}")

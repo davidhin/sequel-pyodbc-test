@@ -24,7 +24,7 @@ with conn.cursor() as cursor:
 
 # Insert dummy data
 with conn.cursor() as cursor:
-    for i in tqdm(range(50)):
+    for i in tqdm(range(200)):
         value_string = [
             "('{}','{}')".format(uuid.uuid4(), datetime.datetime.now())
             for _ in range(1000)
