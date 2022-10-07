@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password123
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./mssql-data:/var/opt/mssql/data
+  mssqlsetup:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    depends_on:
+      - mssql
+    restart: "no"
+    entrypoint: >
+      bash -c "/opt/mssql-tools/bin/sqlcmd -S mssql -U sa -P 'Password123' -C -Q 'create database TESTDB'
+      && /opt/mssql-tools/bin/sqlcmd -S mssql -U sa -P 'Password123' -d TESTDB -C -Q 'create table TESTTABLE (id varchar(50), date datetime2)'"
