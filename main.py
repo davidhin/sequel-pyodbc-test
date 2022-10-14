@@ -1,3 +1,5 @@
+import csv
+import sys
 import time
 
 import pyodbc
@@ -20,6 +22,15 @@ with conn.cursor() as cursor:
     cursor.execute("select * from TESTTABLE")
     data = cursor.fetchall()
     print(len(data))
-end = time.time()
 
+# Write data to csv
+if "save" in sys.argv:
+    with open("data.csv", "w") as f:
+        writer = csv.writer(f)
+        # isoformat
+        for i in data:
+            i[1] = i[1].isoformat()
+        writer.writerows(data)
+
+end = time.time()
 print(f"Time taken (Pyodbc): {end - start}")
